@@ -4,6 +4,7 @@ import {
   collection,
   addDoc,
   doc,
+  deleteDoc,
   updateDoc,
   onSnapshot,
   query,
@@ -57,6 +58,17 @@ export async function markResolved(id) {
     });
   } catch (error) {
     console.error(`Failed to mark item ${id} as resolved:`, error);
+    throw error;
+  }
+}
+
+export async function deleteItem(id) {
+  try {
+    const itemRef = doc(db, "items", id);
+
+    await deleteDoc(itemRef);
+  } catch (error) {
+    console.error(`Failed to delete item ${id}:`, error);
     throw error;
   }
 }
