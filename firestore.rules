@@ -12,7 +12,7 @@ service cloud.firestore {
       allow update: if
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']);
 
-      allow delete: if false;
+      allow delete: if resource.data.status == 'resolved';
     }
   }
 }

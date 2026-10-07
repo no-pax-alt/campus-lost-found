@@ -1,4 +1,4 @@
-import { listenToItems, markResolved } from "./api.js";
+import { deleteItem, listenToItems, markResolved } from "./api.js";
 
 const mockItems = [
   {
@@ -198,6 +198,7 @@ function openItemModal(item) {
   }
 
   title.textContent = getSafeText(item?.title) || "Item details";
+  title.dataset.itemId = item?.id || "";
   body.replaceChildren();
 
   const fieldList = document.createElement("div");
@@ -321,7 +322,16 @@ function createItemCard(item) {
   resolveButton.textContent = item.status === "resolved" ? "Resolved" : "Mark as Resolved";
   resolveButton.disabled = item.status === "resolved";
 
-  actionRow.append(detailsButton, resolveButton);
+  if (item.status === "resolved") {
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.dataset.action = "delete";
+    deleteButton.dataset.id = item.id;
+    deleteButton.textContent = "Delete";
+    actionRow.append(detailsButton, resolveButton, deleteButton);
+  } else {
+    actionRow.append(detailsButton, resolveButton);
+  }
 
   content.append(badgeRow, title, meta, actionRow);
   card.append(imageWrap, content);
@@ -440,6 +450,31 @@ async function handleResolve(item) {
   }
 }
 
+async function handleDelete(item) {
+  if (!item || item.status !== "resolved") return;
+  if (!window.confirm(`Delete “${getSafeText(item.title) || "this item"}”? This cannot be undone.`)) return;
+
+  try {
+    await deleteItem(item.id);
+
+    allItems = allItems.filter((currentItem) => currentItem.id !== item.id);
+
+    if (document.getElementById("item-modal") && !document.getElementById("item-modal").hidden) {
+      const modalTitle = document.getElementById("modal-title");
+      const activeItemId = modalTitle?.dataset?.itemId;
+      if (activeItemId === item.id) {
+        closeItemModal();
+      }
+    }
+
+    applyFilters();
+    showToast(`Deleted “${getSafeText(item.title) || "item"}” from the list.`);
+  } catch (error) {
+    console.error("Failed to delete item:", error);
+    showToast("Unable to delete this item.", true);
+  }
+}
+
 export function initBrowse() {
   if (browseInitialized) {
     return;
@@ -502,6 +537,11 @@ export function initBrowse() {
 
     if (action === "resolve") {
       await handleResolve(item);
+      return;
+    }
+
+    if (action === "delete") {
+      await handleDelete(item);
     }
   });
 
