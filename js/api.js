@@ -13,39 +13,50 @@ import {
 
 const itemsCollection = collection(db, "items");
 
-// Add a new lost/found item
 export async function addItem(itemData) {
-  const docRef = await addDoc(itemsCollection, {
-    ...itemData,
-    status: "open",
-    createdAt: serverTimestamp()
-  });
+  try {
+    const docRef = await addDoc(itemsCollection, {
+      ...itemData,
+      status: "open",
+      createdAt: serverTimestamp()
+    });
 
-  return docRef.id;
+    return docRef.id;
+  } catch (error) {
+    console.error("Failed to add item to Firestore:", error);
+    throw error;
+  }
 }
 
-// Listen for items in real time
 export function listenToItems(callback) {
-  const q = query(
-    itemsCollection,
-    orderBy("createdAt", "desc")
+  const q = query(itemsCollection, orderBy("createdAt", "desc"));
+
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const items = snapshot.docs.map((document) => ({
+        id: document.id,
+        ...document.data()
+      }));
+
+      callback(items);
+    },
+    (error) => {
+      console.error("Failed to listen for items:", error);
+      throw error;
+    }
   );
-
-  return onSnapshot(q, (snapshot) => {
-    const items = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-
-    callback(items);
-  });
 }
 
-// Mark an item as resolved
 export async function markResolved(id) {
-  const itemRef = doc(db, "items", id);
+  try {
+    const itemRef = doc(db, "items", id);
 
-  await updateDoc(itemRef, {
-    status: "resolved"
-  });
+    await updateDoc(itemRef, {
+      status: "resolved"
+    });
+  } catch (error) {
+    console.error(`Failed to mark item ${id} as resolved:`, error);
+    throw error;
+  }
 }
