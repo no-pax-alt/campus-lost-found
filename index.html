@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Campus Lost & Found Board for students." />
+    <title>CampusFind | Campus Lost &amp; Found</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#top" aria-label="CampusFind home">
+          <span class="brand-mark" aria-hidden="true">CF</span>
+          <span>CampusFind</span>
+        </a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="#post-item">Post an item</a>
+          <a href="#browse-items">Browse items</a>
+          <a href="#how-it-works">How it works</a>
+        </nav>
+        <a class="button button-primary header-cta" href="#post-item">Post an item</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero shell" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">Campus lost &amp; found board</p>
+          <h1 id="hero-title">Find what’s lost. Return what’s found.</h1>
+          <p class="hero-text">
+            A simple shared space for students to report missing items, browse
+            recent finds, and reconnect with their belongings around campus.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#browse-items">Browse items</a>
+            <a class="button button-secondary" href="#post-item">Report an item</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="CampusFind benefit">
+          <span class="hero-icon" aria-hidden="true">✓</span>
+          <strong>One board, less searching</strong>
+          <p>Keep the item, location, date, and contact details together.</p>
+        </aside>
+      </section>
+
+      <section class="panel-section" id="post-item" aria-labelledby="post-heading">
+        <div class="shell two-column">
+          <div class="section-intro">
+            <p class="eyebrow">Share an update</p>
+            <h2 id="post-heading">Post a lost or found item</h2>
+            <p>
+              Add clear details so another student can recognize the item and
+              safely get in touch.
+            </p>
+          </div>
+          <form id="post-form" class="card form-card">
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-type">Type</label>
+                <select id="f-type" name="type">
+                  <option value="lost">Lost</option>
+                  <option value="found">Found</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-title">Item title</label>
+                <input id="f-title" name="title" type="text" placeholder="e.g. Blue water bottle" required />
+              </div>
+              <div class="field field-wide">
+                <label for="f-description">Description</label>
+                <textarea id="f-description" name="description" rows="3" placeholder="What makes this item recognizable?" required></textarea>
+              </div>
+              <div class="field">
+                <label for="f-category">Category</label>
+                <select id="f-category" name="category" required>
+                  <option value="">Choose a category</option>
+                  <option value="accessories">Accessories</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="ids and documents">IDs and documents</option>
+                  <option value="bags">Bags</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-location">Location</label>
+                <input id="f-location" name="location" type="text" placeholder="e.g. Main library" required />
+              </div>
+              <div class="field">
+                <label for="f-date">Date</label>
+                <input id="f-date" name="date" type="date" required />
+              </div>
+              <div class="field">
+                <label for="f-contactName">Contact name</label>
+                <input id="f-contactName" name="contactName" type="text" placeholder="Your name" required />
+              </div>
+              <div class="field">
+                <label for="f-contact">Contact</label>
+                <input id="f-contact" name="contact" type="text" placeholder="Email or phone" required />
+              </div>
+              <div class="field field-wide">
+                <label for="f-image">Image <span class="optional">(optional)</span></label>
+                <input id="f-image" name="image" type="file" accept="image/*" />
+              </div>
+            </div>
+            <button class="button button-primary form-submit" type="submit">Post item</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="browse-section shell" id="browse-items" aria-labelledby="browse-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Community board</p>
+            <h2 id="browse-heading">Browse items</h2>
+          </div>
+          <span class="result-count">Latest listings</span>
+        </div>
+        <div class="filters card" aria-label="Search and filter items">
+          <div class="field search-field">
+            <label for="search-box">Search</label>
+            <input id="search-box" type="search" placeholder="Search by title or details" />
+          </div>
+          <div class="field">
+            <label for="filter-type">Type</label>
+            <select id="filter-type">
+              <option value="">All types</option>
+              <option value="lost">Lost</option>
+              <option value="found">Found</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-category">Category</label>
+            <select id="filter-category">
+              <option value="">All categories</option>
+              <option value="accessories">Accessories</option>
+              <option value="electronics">Electronics</option>
+              <option value="ids and documents">IDs and documents</option>
+              <option value="bags">Bags</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="filter-from">From</label>
+            <input id="filter-from" type="date" />
+          </div>
+          <div class="field">
+            <label for="filter-to">To</label>
+            <input id="filter-to" type="date" />
+          </div>
+        </div>
+
+        <div id="empty-state" class="empty-state card" hidden>
+          <strong>No matching items yet</strong>
+          <p>Try another search term or clear one of the filters.</p>
+        </div>
+        <div id="items-list" class="items-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="how-section" id="how-it-works" aria-labelledby="how-heading">
+        <div class="shell">
+          <p class="eyebrow">Simple by design</p>
+          <h2 id="how-heading">How CampusFind works</h2>
+          <div class="steps">
+            <article class="step"><b>1</b><h3>Post</h3><p>Share what was lost or found and where it happened.</p></article>
+            <article class="step"><b>2</b><h3>Browse</h3><p>Search the board and narrow results with filters.</p></article>
+            <article class="step"><b>3</b><h3>Reconnect</h3><p>Use the contact details to arrange a safe return.</p></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="item-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-content card">
+        <button class="modal-close" type="button" aria-label="Close item details">×</button>
+        <p class="eyebrow">Item details</p>
+        <h2 id="modal-title">Item details</h2>
+        <p id="modal-description">Select a listing to view its details.</p>
+      </div>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
