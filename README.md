@@ -42,7 +42,7 @@ Then open `http://localhost:8000` in a browser. Firebase behavior requires the p
 
 ## Firebase live deployment
 
-Live demo: **[Add Firebase Hosting URL here]**
+Live demo: **https://campus-lost-found-200f8.web.app**
 
 ## Screenshots / demo
 
